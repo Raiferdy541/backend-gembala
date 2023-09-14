@@ -6,7 +6,7 @@ module.exports = (Sequelize, DataTypes) => {
             autoIncrement: true,
             allowNull: false
           },
-          rf_id:{
+          qr_id:{
             type: DataTypes.STRING,
             allowNull: false
           },

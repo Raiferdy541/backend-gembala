@@ -12,7 +12,7 @@ module.exports = (Sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false,
           },
-          rf_id:{
+          qr_id:{
             type: DataTypes.STRING,
             allowNull: false
           },

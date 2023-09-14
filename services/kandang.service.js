@@ -21,7 +21,7 @@ class _kandang{
                         as: 'ternak',
                         attributes: [
                             'id_ternak',
-                            'rf_id',
+                            'qr_id',
                             'status_keluar',
                             'tanggal_keluar',
                         ],

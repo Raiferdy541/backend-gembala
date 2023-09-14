@@ -28,7 +28,7 @@ const lkPemasukanController = (db) => {
     /**
      * Create LK Pemasukan
      * @param {number} id_ternak
-     * @param {string} rf_id
+     * @param {string} qr_id
      * @param {number} id_bangsa
      * @param {string} jenis_kelamin
      * @param {number} cek_poel

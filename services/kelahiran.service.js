@@ -22,7 +22,7 @@ class _kelahiran {
             req.query.status_keluar = null
             req.query.tanggal_keluar = null
             // Get data new ternak kelahiran
-            const list = await this.db.Ternak.findAll({attributes: ['id_ternak', 'rf_id'], where: req.query});
+            const list = await this.db.Ternak.findAll({attributes: ['id_ternak', 'qr_id'], where: req.query});
             if (list.length <= 0) newError(404, 'Data New Ternak Kelahiran tidak ditemukan', 'getNewTernakKelahiran Service');
 
             return {

@@ -14,7 +14,7 @@ class _rfid{
             // Validate data
             const schema = joi.object({
                 token: joi.string().required(),
-                rf_id: joi.string().required(),
+                qr_id: joi.string().required(),
                 jenis_ternak_baru: joi.string().required(),
             });
             const { error, value } = schema.validate(req.body);
@@ -34,7 +34,7 @@ class _rfid{
             const checkTernak = await this.db.Ternak.findAll({
                 attributes: ['id_ternak'],
                 where: {
-                    rf_id: value.rf_id,
+                    qr_id: value.qr_id,
                     id_peternakan: req.dataAuth.id_peternakan
                 }
             })
@@ -68,7 +68,7 @@ class _rfid{
             
             // Add New Ternak
             const addTernak = await this.db.Ternak.create({
-                rf_id: value.rf_id,
+                qr_id: value.qr_id,
                 id_peternakan: req.dataAuth.id_peternakan,
                 id_status_ternak: value.jenis_ternak_baru.toLowerCase() == "kelahiran" ? (statusTernakCempe ? statusTernakCempe.dataValues.id_status_ternak : null) : null,
                 id_fp: value.jenis_ternak_baru.toLowerCase() == "ternak baru" ? idFasePemasukan.dataValues.id_fp : null
@@ -102,14 +102,14 @@ class _rfid{
     rfidGetTernak = async (req) =>{
         try{
             const schema = joi.object({
-                rf_id: joi.string().required(),
+                qr_id: joi.string().required(),
             });
             const { error, value } = schema.validate(req.body);
             if (error) newError(400, error.details[0].message, 'rfid Service');
             // Query data
             const list = await this.db.Ternak.findOne({
                 attributes : ['id_ternak', 
-                'rf_id', 
+                'qr_id', 
                 'image', 
                 'jenis_kelamin', 
                 'id_dam', 
@@ -182,7 +182,7 @@ class _rfid{
                     },
                 ],
                 where : {
-                    rf_id: value.rf_id
+                    qr_id: value.qr_id
                 }
             });
             

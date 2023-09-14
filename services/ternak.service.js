@@ -45,7 +45,7 @@ class _ternak {
             // Query data
             const list = await this.db.Ternak.findAll({
                 attributes: ['id_ternak',
-                    'rf_id',
+                    'qr_id',
                     'image',
                     'jenis_kelamin',
                     'id_dam',
@@ -392,7 +392,7 @@ class _ternak {
         try {
             // Validate Data
             const schema = joi.object({
-                rf_id: joi.string().required(),
+                qr_id: joi.string().required(),
                 image: joi.string().allow(null),
                 jenis_kelamin: joi.string().allow(null),
                 id_bangsa: joi.number().allow(null),
@@ -439,7 +439,7 @@ class _ternak {
             }
 
             // Check if Ternak already exist
-            const ternak = await this.db.Ternak.findOne({where: {rf_id: value.rf_id}});
+            const ternak = await this.db.Ternak.findOne({where: {qr_id: value.qr_id}});
             if (ternak) newError(400, 'RFID Ternak sudah terdaftar', 'createTernak Service');
 
             // Add id_user to params
@@ -447,7 +447,7 @@ class _ternak {
             
             // Create new Ternak
             const add = await this.db.Ternak.create({
-                rf_id: value.rf_id,
+                qr_id: value.qr_id,
                 id_peternakan: req.dataAuth.id_peternakan,
                 image: value.image,
                 jenis_kelamin: value.jenis_kelamin,
@@ -469,7 +469,7 @@ class _ternak {
                 // Add Timbangan
                 const timbangan = await this.db.Timbangan.create({
                     id_ternak: add.id_ternak,
-                    rf_id: add.rf_id,
+                    qr_id: add.qr_id,
                     berat: add.berat ? add.berat : 0,
                     suhu: add.suhu ? add.suhu : 0,
                     tanggal_timbang: new Date(),
@@ -493,7 +493,7 @@ class _ternak {
                 code: 200,
                 data: {
                     id: add.id_ternak,
-                    rf_id: add.rf_id,
+                    qr_id: add.qr_id,
                     createdAt: add.createdAt
                 }
             };
@@ -509,7 +509,7 @@ class _ternak {
         try {
             const schema = joi.object({
                 id_ternak: joi.number().required(),
-                rf_id: joi.string().allow(null),
+                qr_id: joi.string().allow(null),
                 image: joi.string().allow(null),
                 jenis_kelamin: joi.string().allow(null),
                 id_bangsa: joi.number().allow(null),
@@ -551,7 +551,7 @@ class _ternak {
 
             // Update Ternak
             const update = await this.db.Ternak.update({
-                rf_id: value.rf_id || ternak.dataValues.rf_id,
+                qr_id: value.qr_id || ternak.dataValues.qr_id,
                 image: value.image || ternak.dataValues.image,
                 jenis_kelamin: value.jenis_kelamin || ternak.dataValues.jenis_kelamin,
                 id_bangsa: value.id_bangsa || ternak.dataValues.id_bangsa,
@@ -589,7 +589,7 @@ class _ternak {
                 // Add Timbangan
                 const timbangan = await this.db.Timbangan.create({
                     id_ternak: ternak.dataValues.id_ternak,
-                    rf_id: value.rf_id || ternak.dataValues.rf_id,
+                    qr_id: value.qr_id || ternak.dataValues.qr_id,
                     berat: value.berat || (latest_timbangan && latest_timbangan.dataValues.berat ? latest_timbangan.dataValues.berat : 0),
                     suhu: value.suhu || (latest_timbangan && latest_timbangan.dataValues.suhu ? latest_timbangan.dataValues.suhu : 0),
                     tanggal_timbang: new Date(),
@@ -616,7 +616,7 @@ class _ternak {
                 code: 200,
                 data: {
                     id: value.id_ternak,
-                    rf_id: value.rf_id,
+                    qr_id: value.qr_id,
                     updatedAt: new Date()
                 }
             };
@@ -712,7 +712,7 @@ class _ternak {
             // Query Data
             const list = await this.db.Ternak.findAll({
                 attributes: ['id_ternak',
-                    'rf_id',
+                    'qr_id',
                     'image',
                     'jenis_kelamin',
                     'id_dam',
@@ -852,7 +852,7 @@ class _ternak {
             // Query Data
             const list = await this.db.Ternak.findAll({
                 attributes: ['id_ternak',
-                    'rf_id',
+                    'qr_id',
                     'image',
                     'jenis_kelamin',
                     'id_dam',
@@ -959,7 +959,7 @@ class _ternak {
             // Get ternak keluar
             const list = await this.db.Ternak.findAll({
                 attributes: ['id_ternak',
-                    'rf_id',
+                    'qr_id',
                     'image',
                     'jenis_kelamin',
                     'id_dam',

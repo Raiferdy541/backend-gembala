@@ -15,7 +15,7 @@ class _timbangan{
                     {
                         model: this.db.Ternak,
                         as: 'ternak',
-                        attributes: ['id_ternak', 'rf_id']
+                        attributes: ['id_ternak', 'qr_id']
                     }
                 ],
                 where : req.query
@@ -38,7 +38,7 @@ class _timbangan{
         try {
             // Validate data
             const schema = joi.object({
-                rf_id: joi.string().required(),
+                qr_id: joi.string().required(),
                 berat: joi.number().required(),
                 suhu: joi.number().required()
             });
@@ -48,9 +48,9 @@ class _timbangan{
 
             // Query data ternak
             const ternak = await this.db.Ternak.findOne({
-                attributes: ['id_ternak', 'rf_id'],
+                attributes: ['id_ternak', 'qr_id'],
                 where: {
-                    rf_id: value.rf_id
+                    qr_id: value.qr_id
                 }
             });
             if(!ternak) newError(404, 'Data Ternak tidak ditemukan', 'createDataTimbangan Service');
@@ -58,7 +58,7 @@ class _timbangan{
             // Query data
             const add = await this.db.Timbangan.create({
                 id_ternak: ternak.id_ternak,
-                rf_id : value.rf_id,
+                qr_id : value.qr_id,
                 berat: value.berat,
                 suhu: value.suhu
             });
@@ -69,7 +69,7 @@ class _timbangan{
                 data: {
                     id_timbangan: add.id_timbangan,
                     id_ternak: add.id_ternak,
-                    rf_id: add.rf_id,
+                    qr_id: add.qr_id,
                     createdAt: new Date()
                 }
             };

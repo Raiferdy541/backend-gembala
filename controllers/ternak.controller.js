@@ -43,7 +43,7 @@ const ternakController = (db) => {
 
     /**
      * Create new data ternak
-     * @param {string} rf_id
+     * @param {string} qr_id
      * @param {number} id_varietas
      * @param {number} id_induk
      * @param {number} id_pejantan
@@ -68,7 +68,7 @@ const ternakController = (db) => {
     /**
      * Update data ternak
      * @param {number} id_ternak
-     * @param {string} rf_id
+     * @param {string} qr_id
      * @param {number} id_varietas
      * @param {number} id_induk
      * @param {number} id_pejantan
