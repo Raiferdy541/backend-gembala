@@ -3,7 +3,7 @@ const joi = require('joi');
 const { newError, errorHandler } = require('../utils/errorHandler');
 const {Op} = require('sequelize');
 
-class _fattening_d {
+class _buku_pakan_d {
     constructor(db) {
         this.db = db;
     }
@@ -15,27 +15,12 @@ class _fattening_d {
                 attributes: ['id_ternak','id_fp','qr_id'],
                 include: [
                     {
-                        model: this.db.Fase,
-                        as: 'fase',
-                        attributes: ['id_fp', 'fase']
-                    },
-                    {
-                        model: this.db.Bangsa,
-                        as: 'bangsa',
-                        attributes: ['id_bangsa', 'bangsa']
-                    },
-                    {
                         model: this.db.Kandang,
                         as: 'kandang',
-                        attributes: ['id_kandang', 'kode_kandang'],
+                        attributes: ['id_kandang','kode_kandang']
                     },
-                    {
-                        model: this.db.Timbangan,
-                        as: 'timbangan',
-                        attributes: ['id_timbangan', 'berat', 'suhu'],
-                    }
+
                 ],
-                
                 where: {
                     id_fp: 13, // fattening
                 }
@@ -46,30 +31,11 @@ class _fattening_d {
             // });
 
             if (ternakFattening.length <= 0) newError(404, 'Data Ternak Waiting List Perkawinan tidak ditemukan', 'getternakFattening Service');
-            
-            let totalByKandang = {}
-
-            for(let i = 0; i < ternakFattening.length; i++){
-                if(ternakFattening[i].dataValues.kandang.kode_kandang != null){
-
-                    ternakFattening[i].dataValues.berat = ternakFattening[i].dataValues.timbangan.length > 0 ? ternakFattening[i].dataValues.timbangan[ternakFattening[i].dataValues.timbangan.length - 1].dataValues.berat : null;
-                    ternakFattening[i].dataValues.suhu = ternakFattening[i].dataValues.timbangan.length > 0 ? ternakFattening[i].dataValues.timbangan[ternakFattening[i].dataValues.timbangan.length - 1].dataValues.suhu : null;
-                    delete ternakFattening[i].dataValues.timbangan;
-//
-                    totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang] ? totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang]++ : totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang] = 1;
-                }
-            }
-
-            const ternakBetina = ternakFattening.filter((item) => item.dataValues.jenis_kelamin != null && item.dataValues.jenis_kelamin.toLowerCase() == 'betina');
-            const ternakJantan = ternakFattening.filter((item) => item.dataValues.jenis_kelamin != null && item.dataValues.jenis_kelamin.toLowerCase() == 'jantan');
 
             return {
                 code: 200,
                 data: {
                     total: ternakFattening.length,
-                    ternak_betina: ternakBetina.length,
-                    ternak_jantan: ternakJantan.length,
-                    total_per_kandang: totalByKandang,
                     list: ternakFattening,
                     // detail_fattening: fattening
                 },
@@ -260,4 +226,4 @@ class _fattening_d {
 
 }
 
-module.exports = (db) => new _fattening_d(db);
+module.exports = (db) => new _buku_pakan_d(db);

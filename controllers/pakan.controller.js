@@ -16,6 +16,34 @@ const pakanController = (db) => {
         return response.sendResponse(res, data);
     });
 
+    // test ---------
+    PakanController.get('/pakan-ternak', authentication, adminMiddleware, async (req, res) => {
+        const data = await s$pakan.getPakanTernak(req);
+        return response.sendResponse(res, data);
+    });
+
+    PakanController.get('/bahan-pakan-ternak', authentication, adminMiddleware, async (req, res) => {
+        const data = await s$pakan.getBahanPakanTernak(req);
+        return response.sendResponse(res, data);
+    });
+
+    PakanController.get('/jenis-bahan-pakan-ternak', authentication, adminMiddleware, async (req, res) => {
+        const data = await s$pakan.getJenisBahanPakanTernak(req);
+        return response.sendResponse(res, data);
+    });
+
+    PakanController.post('/jenis-bahan-pakan-ternak', authentication, adminMiddleware, async (req, res) => {
+        const data = await s$pakan.createJenisBahanPakanTernak(req);
+        return response.sendResponse(res, data);
+    });
+
+    PakanController.post('/bahan-pakan-ternak', authentication, adminMiddleware, async (req, res) => {
+        const data = await s$pakan.createBahanPakanTernak(req);
+        return response.sendResponse(res, data);
+    });
+
+    //-------------
+
     /**
      * Create Jenis Pakan
      * @param {string} jenis_pakan
