@@ -63,7 +63,7 @@ class _formInput{
 
             // Get data indukan
             const indukan = await this.db.Ternak.findAll({
-                attributes: ['id_ternak','rf_id'],
+                attributes: ['id_ternak','qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     jenis_kelamin: 'betina',
@@ -75,7 +75,7 @@ class _formInput{
 
             // Get data pejantan
             const pejantan = await this.db.Ternak.findAll({
-                attributes: ['id_ternak','rf_id'],
+                attributes: ['id_ternak','qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     jenis_kelamin: 'jantan',
@@ -91,7 +91,7 @@ class _formInput{
 
             // Get Pejantan in perkawinan
             const pejantanInPerkawinan = await this.db.Ternak.findAll({
-                attributes: ['id_ternak','rf_id'],
+                attributes: ['id_ternak','qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     jenis_kelamin: 'jantan',
@@ -115,7 +115,7 @@ class _formInput{
 
             // Get ternak jantan
             const ternakJantan = await this.db.Ternak.findAll({
-                attributes: ['id_ternak','rf_id'],
+                attributes: ['id_ternak','qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     jenis_kelamin: 'Jantan',
@@ -126,7 +126,7 @@ class _formInput{
 
             // Get ternak betina
             const ternakBetina = await this.db.Ternak.findAll({
-                attributes: ['id_ternak','rf_id'],
+                attributes: ['id_ternak','qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     jenis_kelamin: 'Betina',
@@ -141,7 +141,7 @@ class _formInput{
 
             // Get ternak fase kelahiran
             const ternakKelahiran = await this.db.Ternak.findAll({
-                attributes: ['id_ternak', 'rf_id'],
+                attributes: ['id_ternak', 'qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     id_fp: faseKelahiran.dataValues.id_fp,
@@ -160,7 +160,7 @@ class _formInput{
 
             // Get indukan in faSE kebuntingan and laktasi
             const damKelahiran = await this.db.Ternak.findAll({
-                attributes: ['id_ternak', 'rf_id'],
+                attributes: ['id_ternak', 'qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     jenis_kelamin: 'Betina',
@@ -175,7 +175,7 @@ class _formInput{
 
             // Get ternak
             const ternak = await this.db.Ternak.findAll({
-                attributes: ['id_ternak', 'rf_id'],
+                attributes: ['id_ternak', 'qr_id'],
                 where: {
                     id_peternakan: req.dataAuth.id_peternakan,
                     status_keluar: null,

@@ -245,7 +245,7 @@ class _kebuntingan{
             if(!faseKebuntingan) newError(404, 'Fase Kebuntingan tidak ditemukan', 'getTernakKebuntingan Service');
             // Get data ternak
             const ternak = await this.db.Ternak.findAll({
-                attributes: ['id_ternak', 'rf_id', 'jenis_kelamin'],
+                attributes: ['id_ternak', 'qr_id', 'jenis_kelamin'],
                 include: [
                     {
                         model: this.db.Kandang,

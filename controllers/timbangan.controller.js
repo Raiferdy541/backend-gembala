@@ -19,7 +19,7 @@ const timbanganController = (db) => {
     /**
      * Create new data timbangan
      * @param {number} id_ternak
-     * @param {string} rf_id
+     * @param {string} qr_id
      * @param {number} berat_berkala
      * @param {number} suhu_berkala
      * @param {string} tanggal
@@ -33,7 +33,7 @@ const timbanganController = (db) => {
      * Update data timbangan
      * @param {number} id_timbangan
      * @param {number} id_ternak
-     * @param {string} rf_id
+     * @param {string} qr_id
      * @param {number} berat_berkala
      * @param {number} suhu_berkala
      * @param {string} tanggal

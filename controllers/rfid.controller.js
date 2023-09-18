@@ -9,7 +9,7 @@ const rfidController = (db) => {
 
     /**
      * Add Ternak
-     * @param {string} rf_id
+     * @param {string} qr_id
      * @param {number} id_peternakan
      * @param {string} jenis_ternak_baru
     */

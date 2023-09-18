@@ -96,31 +96,49 @@ class _auth{
             const checkEmail = await this.db.AuthUser.findOne({where : {email: value.email}});
             if (checkEmail) newError(400, 'Email sudah terdaftar', 'Register Service');
 
-            // Get longtitude, latitude and alamat_postcode external API
-            const geocode = await axios.get(config.geocode.base_url, {
-                params: {
-                    auth: config.geocode.auth,
-                    locate: value.postcode,
-                    geoit: config.geocode.geoit,
-                    region: config.geocode.region
-                },
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept-Encoding': 'application/json',
-                }
-            })
-            if(geocode.data.error) newError(400, 'Gagal mendapatkan data geocode, silahkan periiksa kembali postcode anda', 'Register Service');
+            // Get longtitude, latitude and alamat_postcode external API --------##########
 
-            // add peternakan
+            // const geocode = await axios.get(config.geocode.base_url, {
+            //     params: {
+            //         auth: config.geocode.auth,
+            //         locate: value.postcode,
+            //         geoit: config.geocode.geoit,
+            //         region: config.geocode.region
+            //     },
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Accept-Encoding': 'application/json',
+            //     }
+            // })
+            // if(geocode.data.error) newError(400, 'Gagal mendapatkan data geocode, silahkan periiksa kembali postcode anda', 'Register Service');
+
+            // ----- add peternakan ORIGIN --------##########
+
+            // const addPeternakan = await this.db.Peternakan.create({
+            //     nama_peternakan: value.nama_peternakan,
+            //     alamat: value.alamat,
+            //     postcode: value.postcode,
+            //     longitude: geocode.data.longt,
+            //     latitude: geocode.data.latt,
+            //     alamat_postcode: geocode.data.standard.city + ', ' + geocode.data.standard.statename + ', ' + geocode.data.standard.countryname + ', ' + geocode.data.standard.postal
+            // }, {transaction: t});
+            // if(!addPeternakan) newError(400, 'Gagal menambahkan peternakan', 'Register Service');
+
+            // ----- ADD PETERNAKAN VALUE NOT GEO --------##########
+
             const addPeternakan = await this.db.Peternakan.create({
                 nama_peternakan: value.nama_peternakan,
                 alamat: value.alamat,
                 postcode: value.postcode,
-                longitude: geocode.data.longt,
-                latitude: geocode.data.latt,
-                alamat_postcode: geocode.data.standard.city + ', ' + geocode.data.standard.statename + ', ' + geocode.data.standard.countryname + ', ' + geocode.data.standard.postal
+                longitude: value.longitude,
+                latitude: value.latitude,
+                alamat_postcode: value.alamat
             }, {transaction: t});
             if(!addPeternakan) newError(400, 'Gagal menambahkan peternakan', 'Register Service');
+
+
+
+            // -----\\\-------
 
             // Hash password
             value.kata_sandi = await hashPassword(value.kata_sandi);
@@ -316,7 +334,7 @@ class _auth{
         });
         if (updatedAccount <= 0) newError(500, 'Gagal mengupdate data pengguna', 'UpdateAccount Service');
         
-        // Update peternakan
+        // Update peternakan --------########## ORIGIN
         const updatedPeternakan = await this.db.Peternakan.update({
             nama_peternakan: value.nama_peternakan || checkPeternakan.dataValues.nama_peternakan,
             alamat: value.alamat || checkPeternakan.dataValues.alamat,

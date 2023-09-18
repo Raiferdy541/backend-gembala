@@ -20,7 +20,7 @@ class _adaptasi{
                     {
                         model: this.db.Ternak,
                         as: 'ternak',
-                        attributes: ['id_ternak', 'rf_id']
+                        attributes: ['id_ternak', 'qr_id']
                     },
                     {
                         model: this.db.Treatment,
@@ -90,7 +90,7 @@ class _adaptasi{
 
             // Get data ternak by step adaptasi
             const ternakByStepAdaptasi = await this.db.Ternak.findAll({
-                attributes: ['id_ternak', 'rf_id'],
+                attributes: ['id_ternak', 'qr_id'],
                 include: [
                     {
                         model: this.db.Kandang,
@@ -371,7 +371,7 @@ class _adaptasi{
 
             // Query Data
             const list = await this.db.Ternak.findAll({ 
-                attributes: ['id_ternak', 'rf_id'],
+                attributes: ['id_ternak', 'qr_id'],
                 include: [
                     {
                         model: this.db.RiwayatFase,
@@ -429,7 +429,7 @@ class _adaptasi{
     getAllTernakInAdaptasi = async (req) => {
         try{
             const list = await this.db.Ternak.findAll({ 
-                attributes: ['id_ternak', 'rf_id', 'jenis_kelamin'],
+                attributes: ['id_ternak', 'qr_id', 'jenis_kelamin'],
                 include: [
                     {
                         model: this.db.Fase,

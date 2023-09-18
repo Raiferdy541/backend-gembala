@@ -8,6 +8,200 @@ class _pakan{
     constructor(db){
         this.db = db;
     }
+
+    //test --------
+    // d_pakan
+    getPakanTernak = async (req) => {
+        try {
+            // Get ternak in waiting list perkawinan
+            const PakanTernak = await this.db.Pakan.findAll({
+                // attributes: ['id_pakan'],
+            });
+
+            if (PakanTernak.length <= 0) newError(404, 'Data Pakan Ternak tidak ditemukan', 'getPakanTernak Service');
+
+            return {
+                code: 200,
+                data: {
+                    total: PakanTernak.length,
+                    list: PakanTernak,
+                },
+
+            }
+        } catch (error) {
+            return errorHandler(error);
+        }
+    }
+
+    // create d_bahan_pakan
+    createBahanPakanTernak = async (req) => {
+        try {
+            // Ambil data yang dibutuhkan dari permintaan (request)
+            const {
+                id_peternakan, 
+                id_jenis_bahan_pakan,
+                tanggal, 
+                jumlah,
+                keterangan 
+            } = req.body;
+    
+            // Validasi data input menggunakan Joi atau sesuai kebutuhan Anda
+            const schema = joi.object({
+                id_peternakan: joi.number().required(),
+                id_jenis_bahan_pakan: joi.number().required(),
+                tanggal: joi.date().required(),
+                jumlah: joi.number().required(),
+                keterangan: joi.string().required()
+            });
+    
+            const { error } = schema.validate(req.body);
+    
+            if (error) {
+                return newError(400, 'Invalid input data', 'createFattening Service');
+            }
+    
+            // Selanjutnya, Anda dapat membuat entitas baru atau melakukan operasi lain sesuai kebutuhan Anda.
+            const newBahanPakanTernak = await this.db.BahanPakan.create({
+                id_peternakan,
+                id_jenis_bahan_pakan,
+                tanggal,
+                jumlah,
+                keterangan
+            });
+    
+            if (!newBahanPakanTernak) {
+                return newError(500, 'Failed to create Bahan Pakan Ternak data', 'createBahanPakanTernak Service');
+            }
+    
+            return {
+                code: 201,
+                data: newBahanPakanTernak,
+            };
+        } catch (error) {
+            console.log(error);
+            return errorHandler(error);
+        }
+    }
+    
+
+    // d_bahan_pakan // main buku pakan
+    getBahanPakanTernak = async (req) => {
+        try {
+            // Get ternak in waiting list perkawinan
+            const PakanTernak = await this.db.BahanPakan.findAll({
+                // attributes: ['id_pakan'],
+                // include: [
+                //     {
+                //         model: this.db.JenisBahanPakan,
+                //         as: 'jenis_bahan_pakan',
+                //         // attributes: ['id_jenis_bahan','kode_kandang']
+                //     },
+                // ],
+            });
+
+            if (PakanTernak.length <= 0) newError(404, 'Data Pakan Ternak tidak ditemukan', 'getPakanTernak Service');
+
+            return {
+                code: 200,
+                data: {
+                    total: PakanTernak.length,
+                    list: PakanTernak,
+                },
+
+            }
+        } catch (error) {
+            return errorHandler(error);
+        }
+    }
+
+    // create d_jenis_bahan_pakan
+    createJenisBahanPakanTernak = async (req) => {
+        try {
+            // Ambil data yang dibutuhkan dari permintaan (request)
+            const {
+                id_peternakan, // Mengganti id_jenis_pakan dengan id_peternakan
+                jenis_bahan_pakan,
+                satuan, // Mengganti id_bahan_pakan dengan satuan
+                stok, // Menambahkan atribut stok yang baru
+            } = req.body;
+        
+            console.log(req.body);
+        
+            // Validasi data input menggunakan Joi atau sesuai kebutuhan Anda
+            const schema = joi.object({
+                id_peternakan: joi.number().required(), // Mengganti id_jenis_pakan dengan id_peternakan
+                jenis_bahan_pakan: joi.string().required(), // Mengganti id_bahan_pakan dengan satuan
+                satuan: joi.string().required(), // Mengganti id_bahan_pakan dengan satuan
+                stok: joi.number().required(), // Menambahkan atribut stok yang baru
+            });
+        
+            const { error } = schema.validate(req.body);
+        
+            if (error) {
+                return newError(400, 'Invalid input data', 'createFattening Service');
+            }
+        
+            // Cari "id_ternak" berdasarkan "qr_id" dari tabel "s_ternak"
+            // const ternak = await this.db.JenisBahanPakan.findOne({ where: { qr_id } });
+        
+            // if (!ternak) {
+            //     return newError(404, 'Ternak not found', 'createFattening Service');
+            // }
+        
+            // Buat data Fattening baru dengan "id_ternak" yang ditemukan
+            const newJenisBahanPakan = await this.db.JenisBahanPakan.create({
+                jenis_bahan_pakan,
+                id_peternakan,
+                satuan, 
+                stok, 
+            });
+        
+            if (!newJenisBahanPakan) {
+                return newError(500, 'Failed to create Fattening data', 'createFattening Service');
+            }
+        
+            return {
+                code: 201,
+                data: newJenisBahanPakan,
+            };
+        } catch (error) {
+            console.log(error);
+            return errorHandler(error);
+        }
+        
+    }
+
+    // d_jenis_bahan_pakan
+    getJenisBahanPakanTernak = async (req) => {
+        try {
+            // Get ternak in waiting list perkawinan
+            const PakanTernak = await this.db.JenisBahanPakan.findAll({
+                // attributes: ['id_pakan'],
+                include: [
+                    {
+                        model: this.db.BahanPakan,
+                        as: 'bahan_pakan',
+                        // attributes: ['id_jenis_bahan','kode_kandang']
+                    },
+                ]
+            });
+
+            if (PakanTernak.length <= 0) newError(404, 'Data Pakan Ternak tidak ditemukan', 'getPakanTernak Service');
+
+            return {
+                code: 200,
+                data: {
+                    total: PakanTernak.length,
+                    list: PakanTernak,
+                },
+
+            }
+        } catch (error) {
+            return errorHandler(error);
+        }
+    }
+    ///---------
+
     // get data pakan
     getJenisPakan = async (req) => {
         try{

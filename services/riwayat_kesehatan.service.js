@@ -19,7 +19,7 @@ class _riwayatKesehatan{
                     {
                         model: this.db.Ternak,
                         as: 'ternak',
-                        attributes: ['id_ternak', 'rf_id'],
+                        attributes: ['id_ternak', 'qr_id'],
                         include: [
                             {
                                 model: this.db.Kandang,
