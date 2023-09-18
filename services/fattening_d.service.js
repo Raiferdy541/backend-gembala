@@ -57,6 +57,16 @@ class _fattening_d {
                     delete ternakFattening[i].dataValues.timbangan;
 //
                     totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang] ? totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang]++ : totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang] = 1;
+
+                    //percantik
+
+                    ternakFattening[i].dataValues.bangsa = ternakFattening[i].dataValues.bangsa ? ternakFattening[i].dataValues.bangsa.dataValues.bangsa : null;
+
+                    ternakFattening[i].dataValues.kode_kandang = ternakFattening[i].dataValues.kandang ? ternakFattening[i].dataValues.kandang.dataValues.kode_kandang : null;
+                    delete ternakFattening[i].dataValues.kandang;
+
+                    ternakFattening[i].dataValues.fase = ternakFattening[i].dataValues.fase ? ternakFattening[i].dataValues.fase.dataValues.fase : null;
+                    delete ternakFattening[i].dataValues.id_fp;
                 }
             }
 
