@@ -2,22 +2,16 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('d_fattening', {
+    await queryInterface.createTable('d_fattenings', {
       id_fattening: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
+        primaryKey: true
       },
       qr_id: {
         type: Sequelize.STRING,
-        allowNull: false,
-        references: {
-          model: 's_ternak',
-          key: 'qr_id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        allowNull: true,
       },
       id_ternak: {
         type: Sequelize.INTEGER,
@@ -31,71 +25,59 @@ module.exports = {
       },
       id_kandang: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: {
           model: 'd_kandang',
           key: 'id_kandang'
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'CASCADE'
       },
       target_berat: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-
+        allowNull: false
       },
-      rentang_fattening: {
+      minggu_fattening: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      status_fattening: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      id_jenis_pakan: {
         type: Sequelize.INTEGER,
         allowNull: false,
-      },
-      id_jenis_pakan:{
-        type: Sequelize.INTEGER,
-        allowNull: true,
         references: {
           model: 'd_jenis_pakan',
           key: 'id_jenis_pakan'
         },
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE'
-      },
-      id_bahan_pakan:{
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        references: {
-          model: 'd_bahan_pakan',
-          key: 'id_bahan_pakan'
-        },
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       },
       id_bahan_pakan: {
         type: Sequelize.INTEGER,
-        allowNull: true, 
+        allowNull: false,
         references: {
           model: 'd_bahan_pakan',
           key: 'id_bahan_pakan'
         },
-        onDelete: 'SET NULL',
+        onDelete: 'CASCADE',
         onUpdate: 'CASCADE'
       },
-      interval_pakan: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
       createdAt: {
-        type: Sequelize.DATE,
         allowNull: false,
+        type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       },
       updatedAt: {
-        type: Sequelize.DATE,
         allowNull: false,
+        type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP')
       }
     });
-
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('d_fattening');
+    await queryInterface.dropTable('d_fattenings');
   }
 };

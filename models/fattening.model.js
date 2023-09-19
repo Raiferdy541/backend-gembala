@@ -3,13 +3,17 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Fattening extends Model {
+  class Fattening_d extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
     static associate(models) {
-      // Definisikan asosiasi di sini jika diperlukan
+      // define association here
     }
   }
-  
-  Fattening.init({
+  Fattening_d.init({
     id_fattening: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -32,10 +36,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    rentang_fattening: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     id_jenis_pakan: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -44,9 +44,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    interval_pakan: {
+    minggu_fattening: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+    },
+    status_fattening: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -55,23 +59,11 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false
-    }
+    },
   }, {
     sequelize,
-    modelName: 'Fattening', // Nama model yang benar
-    tableName: 'd_fattening', // Nama tabel di database Anda
+    modelName: 'Fattening_d',
+    tableName: 'd_fattenings'
   });
-
-//   Fattening.associate = function (models) {
-//     Fattening.hasMany(models.BahanPakan, {
-//         foreignKey: 'qr_id',
-//         as: 'bahan_pakan'
-//     });
-//     Fattening.belongsTo(models.Peternakan, {
-//         foreignKey: 'id_peternakan',
-//         as: 'peternakan'
-//     });
-// };
-
-  return Fattening;
+  return Fattening_d;
 };

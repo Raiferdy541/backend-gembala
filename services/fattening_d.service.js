@@ -82,8 +82,8 @@ class _fattening_d {
     getTernakMainFattening = async (req) => {
         try {
             // Get ternak in waiting list perkawinan
-            const ternakMainFattening = await this.db.Fattening.findAll({
-                attributes: ['qr_id','id_fattening','id_ternak','id_kandang','target_berat','rentang_fattening','id_jenis_pakan','interval_pakan','createdAt','updatedAt'],
+            const ternakMainFattening = await this.db.Fattening_d.findAll({
+                // attributes: ['qr_id','id_fattening','id_ternak','id_kandang','target_berat','rentang_fattening','id_jenis_pakan','interval_pakan','createdAt','updatedAt'],
             });
 
             if (ternakMainFattening.length <= 0) newError(404, 'Data Ternak Main Fattening tidak ditemukan', 'getternakMainFattening Service');
@@ -109,9 +109,9 @@ class _fattening_d {
                 // Hapus id_ternak dari sini
                 id_kandang,
                 target_berat,
-                rentang_fattening,
+                minggu_fattening,
+                status_fattening,
                 id_jenis_pakan,
-                interval_pakan,
                 id_bahan_pakan,
             } = req.body;
     
@@ -122,9 +122,9 @@ class _fattening_d {
                 qr_id: joi.string().required(),
                 id_kandang: joi.number().required(),
                 target_berat: joi.number().required(),
-                rentang_fattening: joi.number().required(),
+                minggu_fattening: joi.number().required(),
                 id_jenis_pakan: joi.number().required(),
-                interval_pakan: joi.number().required(),
+                status_fattening: joi.string().required(),
                 id_bahan_pakan: joi.number().required(),
             });
     
@@ -142,13 +142,13 @@ class _fattening_d {
             }
     
             // Buat data Fattening baru dengan "id_ternak" yang ditemukan
-            const newFattening = await this.db.Fattening.create({
+            const newFattening = await this.db.Fattening_d.create({
                 id_ternak: ternak.id_ternak,
                 id_kandang,
                 target_berat,
-                rentang_fattening,
+                minggu_fattening,
                 id_jenis_pakan,
-                interval_pakan,
+                status_fattening,
                 id_bahan_pakan,
                 qr_id,
             });
@@ -171,31 +171,34 @@ class _fattening_d {
         try {
             // Ambil data yang dibutuhkan dari permintaan (request)
             const {
-                qr_id,
                 id_fattening,
+                qr_id,
+                // Hapus id_ternak dari sini
                 id_kandang,
                 target_berat,
-                rentang_fattening,
+                minggu_fattening,
+                status_fattening,
                 id_jenis_pakan,
-                interval_pakan,
                 id_bahan_pakan,
-                
             } = req.body;
     
             console.log(req.body);
     
             // Validasi data input menggunakan Joi atau sesuai kebutuhan Anda
             const schema = joi.object({
-                qr_id: joi.string().required(),
                 id_fattening: joi.number().required(),
+                qr_id: joi.string().required(),
                 id_kandang: joi.number().required(),
                 target_berat: joi.number().required(),
-                rentang_fattening: joi.number().required(),
+                minggu_fattening: joi.number().required(),
                 id_jenis_pakan: joi.number().required(),
-                interval_pakan: joi.number().required(),
+                status_fattening: joi.string().required(),
                 id_bahan_pakan: joi.number().required(),
             });
     
+            // Cari "id_ternak" berdasarkan "qr_id" dari tabel "s_ternak"
+            const ternak = await this.db.Ternak.findOne({ where: { qr_id } });
+
             const { error } = schema.validate(req.body);
     
             if (error) {
@@ -203,7 +206,7 @@ class _fattening_d {
             }
     
             // Periksa apakah Fattening data dengan ID yang diberikan ada
-            const existingFattening = await this.db.Fattening.findOne({ where: { id_fattening } });
+            const existingFattening = await this.db.Fattening_d.findOne({ where: { id_fattening } });
     
             if (!existingFattening) {
                 return newError(404, 'Fattening data not found', 'editFattening Service');
@@ -211,13 +214,15 @@ class _fattening_d {
     
             // Lakukan update data Fattening
             const updatedFattening = await existingFattening.update({
-                qr_id,
+                id_fattening,
+                id_ternak: ternak.id_ternak,
                 id_kandang,
                 target_berat,
-                rentang_fattening,
+                minggu_fattening,
                 id_jenis_pakan,
-                interval_pakan,
+                status_fattening,
                 id_bahan_pakan,
+                qr_id,
             });
     
             return {
@@ -236,7 +241,7 @@ class _fattening_d {
             const { qr_id } = req.body;
     
             // Periksa apakah Fattening data dengan qr_id yang diberikan ada
-            const existingFattening = await this.db.Fattening.findOne({ where: { qr_id } });
+            const existingFattening = await this.db.Fattening_d.findOne({ where: { qr_id } });
     
             if (!existingFattening) {
                 return newError(404, 'Fattening data not found', 'deleteFatteningByQRIDFromBody Service');
