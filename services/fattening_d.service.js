@@ -12,7 +12,7 @@ class _fattening_d {
         try {
             // Get ternak in waiting list perkawinan
             const ternakFattening = await this.db.Ternak.findAll({
-                attributes: ['id_ternak','id_fp','qr_id'],
+                attributes: ['id_ternak','id_fp','qr_id','jenis_kelamin'],
                 include: [
                     {
                         model: this.db.Fase,
@@ -35,7 +35,7 @@ class _fattening_d {
                         attributes: ['id_timbangan', 'berat', 'suhu'],
                     }
                 ],
-                
+
                 where: {
                     id_fp: 13, // fattening
                 }
@@ -46,7 +46,7 @@ class _fattening_d {
             // });
 
             if (ternakFattening.length <= 0) newError(404, 'Data Ternak Waiting List Perkawinan tidak ditemukan', 'getternakFattening Service');
-            
+
             let totalByKandang = {}
 
             for(let i = 0; i < ternakFattening.length; i++){
@@ -55,11 +55,11 @@ class _fattening_d {
                     ternakFattening[i].dataValues.berat = ternakFattening[i].dataValues.timbangan.length > 0 ? ternakFattening[i].dataValues.timbangan[ternakFattening[i].dataValues.timbangan.length - 1].dataValues.berat : null;
                     ternakFattening[i].dataValues.suhu = ternakFattening[i].dataValues.timbangan.length > 0 ? ternakFattening[i].dataValues.timbangan[ternakFattening[i].dataValues.timbangan.length - 1].dataValues.suhu : null;
                     delete ternakFattening[i].dataValues.timbangan;
-//
+
                     totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang] ? totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang]++ : totalByKandang[ternakFattening[i].dataValues.kandang.kode_kandang] = 1;
                 }
             }
-
+            console.log();
             const ternakBetina = ternakFattening.filter((item) => item.dataValues.jenis_kelamin != null && item.dataValues.jenis_kelamin.toLowerCase() == 'betina');
             const ternakJantan = ternakFattening.filter((item) => item.dataValues.jenis_kelamin != null && item.dataValues.jenis_kelamin.toLowerCase() == 'jantan');
 
