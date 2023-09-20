@@ -8,6 +8,16 @@ const bahanPakanController = (db) => {
     const s$bahanPakan = bahanPakanService(db);
     const BahanPakanController = Router();
 
+
+    /**
+     * Get Jenis Bahan Pakan
+     */
+    BahanPakanController.get('/all', authentication, adminMiddleware, async (req, res) => {
+        const data = await s$bahanPakan.getAllBahanPakan(req);
+        return response.sendResponse(res, data);
+    });
+
+
     /**
      * Get Jenis Bahan Pakan
      */

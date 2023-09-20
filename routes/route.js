@@ -28,8 +28,10 @@ const kelahiranController = require("../controllers/kelahiran.controller");
 const riwayatKelahiranController = require("../controllers/riwayat_kelahiran.controller");
 const lepasSapihController = require("../controllers/lepas_sapih.controller");
 const riwayatLepasSapihController = require("../controllers/riwayat_lepas_sapih.controller");
-////
+//
 const fattening_dController = require("../controllers/fattening_d.controller");
+// const bukuPakan_dController = require("../controllers/buku_pakan.controller");
+
 
 // Define url API in here
 const _routes = [
@@ -65,6 +67,7 @@ const _routes = [
     ['/riwayat-lepas-sapih', riwayatLepasSapihController],
 
     ['/fattening', fattening_dController],
+    // ['/buku-pakan', bukuPakan_dController],
 ];
 
 const routes = (app, db) => {

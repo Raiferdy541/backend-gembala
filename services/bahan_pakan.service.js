@@ -167,6 +167,35 @@ class _bahanPakan{
             return errorHandler(error);
         }
     }
+
+        // Get data bahan pakan //
+        getAllBahanPakan = async (req) => {
+            try{
+                // Query data
+                const list = await this.db.BahanPakan.findAll({
+                    attributes : ['id_bahan_pakan', "tanggal", "jumlah", "keterangan", "createdAt", "updatedAt"],
+                    include: [
+                        {
+                            model: this.db.JenisBahanPakan,
+                            as: 'jenis_bahan_pakan',
+                            attributes: ['id_jenis_bahan_pakan', 'jenis_bahan_pakan', 'satuan']
+                        }
+                    ],  
+                });
+                if(list.length <= 0) newError(404, 'Data Bahan Pakan tidak ditemukan', 'getBahanPakan');
+        
+                return {
+                    code : 200,
+                    data: {
+                        total: list.length,
+                        list
+                    },
+                };
+            }catch (error){
+                return errorHandler(error);
+            }
+        }
+        
     
     // Add new bahan pakan/ Mutasi bahan pakan
     createBahanPakan = async (req) => {
